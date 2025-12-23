@@ -12,6 +12,9 @@ import {
   BarChart3,
   TrendingUp,
   Map,
+  Mail,
+  Inbox,
+  Phone,
   Settings,
 } from 'lucide-react';
 
@@ -30,6 +33,9 @@ const navigation = [
       { name: 'Geographic', href: '/analytics/geographic', icon: Map },
     ],
   },
+  { name: 'Newsletter Blogs', href: '/newsletter-blogs', icon: Mail },
+  { name: 'Email Interactions', href: '/email-interactions', icon: Inbox },
+  { name: 'Call Interactions', href: '/call-interactions', icon: Phone },
   { name: 'Settings', href: '/settings', icon: Settings },
 ];
 

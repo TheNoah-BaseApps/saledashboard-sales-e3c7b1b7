@@ -1,13 +1,16 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { BarChart3, Users, MousePointerClick, Store, UserPlus, TrendingUp } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { BarChart3, Users, MousePointerClick, Store, UserPlus, TrendingUp, Mail, Inbox, Phone } from 'lucide-react';
 import AnalyticsDashboard from '@/components/analytics/AnalyticsDashboard';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 export default function DashboardPage() {
+  const router = useRouter();
   const [metrics, setMetrics] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -102,6 +105,33 @@ export default function DashboardPage() {
     }
   ];
 
+  const workflows = [
+    {
+      title: 'Newsletter Blogs',
+      description: 'Manage newsletter subscriptions and blog content',
+      icon: Mail,
+      color: 'text-blue-600',
+      bgColor: 'bg-blue-100 dark:bg-blue-900/20',
+      href: '/newsletter-blogs'
+    },
+    {
+      title: 'Email Interactions',
+      description: 'Track email communications with sentiment analysis',
+      icon: Inbox,
+      color: 'text-purple-600',
+      bgColor: 'bg-purple-100 dark:bg-purple-900/20',
+      href: '/email-interactions'
+    },
+    {
+      title: 'Call Interactions',
+      description: 'Monitor call transcripts and purchase intent',
+      icon: Phone,
+      color: 'text-green-600',
+      bgColor: 'bg-green-100 dark:bg-green-900/20',
+      href: '/call-interactions'
+    }
+  ];
+
   return (
     <div className="space-y-6">
       <div>
@@ -131,6 +161,45 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         ))}
+      </div>
+
+      <div className="space-y-4">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+            Workflows
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400">
+            Manage your customer interaction workflows
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {workflows.map((workflow, index) => (
+            <Card key={index} className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => router.push(workflow.href)}>
+              <CardHeader>
+                <div className="flex items-center justify-between mb-2">
+                  <div className={`p-3 rounded-lg ${workflow.bgColor}`}>
+                    <workflow.icon className={`h-6 w-6 ${workflow.color}`} />
+                  </div>
+                </div>
+                <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white">
+                  {workflow.title}
+                </CardTitle>
+                <CardDescription className="text-gray-600 dark:text-gray-400">
+                  {workflow.description}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button variant="outline" className="w-full" onClick={(e) => {
+                  e.stopPropagation();
+                  router.push(workflow.href);
+                }}>
+                  View Details
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
 
       <AnalyticsDashboard />
